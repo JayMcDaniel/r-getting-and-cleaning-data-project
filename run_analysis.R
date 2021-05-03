@@ -21,11 +21,15 @@ activity_labels <- scan("activity_labels.txt", what="", sep="\n") # vector of 6,
 activity_labels <- str_remove_all(activity_labels, "\\d ") %>% str_replace_all("_", " ")
 activity_labels
 
+
+
 #Get features labels
 features_labels <- scan("features.txt", what="", sep="\n") 
 #make logical vector to be used to keep only the features we want (mean and standard deviation)
 include_feature_v <- str_detect(features_labels, "mean\\(\\)|std\\(\\)") 
 included_features_labels <- features_labels[include_feature_v] %>%  str_remove_all("\\d\\s*")
+included_features_labels
+
 
 
 ##functions to get and convert data. Repeated with test and train folders##
@@ -50,11 +54,7 @@ get_subject_activity <- function(filename){
   subject_activity
 }
 
-#get inertial signal 
-get_inertial_signal <- function (filename, colnames){
-  inertial_signal <- read_delim(filename, delim ="\n", col_names = colnames)
-  inertial_signal
-}
+
 
 #get features data
 get_features <- function(filename){
@@ -76,28 +76,26 @@ clean_features <- function (features){
 }
 
 
-
-
 ##Get Test subjects data##
 
 #test subject ids
 test_subject_ids <- get_subject_ids("test/subject_test.txt")
+test_subject_ids
 
 #test subject activities
 test_subject_activity <- get_subject_activity("test/y_test.txt")
-
-# import test subject estimated body acceleration
-test_estimated_body_acceleration_x <- get_inertial_signal("test/inertial_signals/body_acc_x_test.txt", c("estimated_body_acceleration_x"))
-test_estimated_body_acceleration_x[1,1]
+test_subject_activity
 
 #import features set
 test_features <- get_features("test/X_test.txt")
+test_features
 #clean up and organize features set
 test_features <- clean_features(test_features)
+test_features
 
 #join test data tibbles
 test_tb <- left_join(test_subject_ids, test_subject_activity, by="observation_id")  %>% left_join(., test_features, by="observation_id") 
-
+test_tb
 
 
 ##Get Training subjects data##
@@ -116,10 +114,12 @@ training_features <- clean_features(training_features)
 #join test data tibbles
 training_tb <- left_join(training_subject_ids, training_subject_activity, by="observation_id")  %>% left_join(., training_features, by="observation_id") 
 
+training_tb
 
 #join test and training tibbles
 combined_tibble <- bind_rows(test_tb, training_tb) %>% arrange(subject_id) 
 combined_tibble$observation_id <- 1:nrow(combined_tibble) #assign new observation id to make it unique again ()
+
 
 #clean up column names
 names(combined_tibble) <- tolower(names(combined_tibble)) %>% 
@@ -140,7 +140,7 @@ names(combined_tibble) <- tolower(names(combined_tibble)) %>%
 
 #convert columns to numeric
 combined_tibble[, c(4:ncol(combined_tibble))] <- sapply(combined_tibble[, c(4:ncol(combined_tibble))], as.numeric)
-
+combined_tibble
 
 ## Make averages tibble ##
 averages_tibble <- combined_tibble %>%
