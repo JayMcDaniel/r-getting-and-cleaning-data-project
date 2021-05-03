@@ -219,7 +219,7 @@ The R script in run_analysis.R does the following:
 
     
     
-  On line 146 we use rtidy to make an everages table
+  On line 146 we use rtidy to make an averages table
 
       ## Make averages tibble ##
     averages_tibble <- combined_tibble %>%
