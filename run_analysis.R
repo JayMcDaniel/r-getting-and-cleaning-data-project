@@ -2,7 +2,7 @@ library(tidyverse)
 
 setwd("UCI_HAR_Dataset")
 options(scipen=999)
-
+#test
 
 ## Helper Functions ##
 #function to be applied in lapply to list to split each string into vectors, and only keep features we want, according to include_feature_v
