@@ -19,6 +19,7 @@ transpose_tibble <- function(tibble){
 # Get Activity labels
 activity_labels <- scan("activity_labels.txt", what="", sep="\n") # vector of 6, ex: [1] "1 WALKING" 
 activity_labels <- str_remove_all(activity_labels, "\\d ") %>% str_replace_all("_", " ")
+activity_labels
 
 #Get features labels
 features_labels <- scan("features.txt", what="", sep="\n") 
@@ -147,7 +148,8 @@ averages_tibble <- combined_tibble %>%
   group_by(subject_id, activity) %>% 
   summarise_all(mean)
 
-mean(averages_tibble)
 
-
+#save tibbles as CSVs
+write.table(combined_tibble , file = "../combined_tibble.csv")
+write.table(averages_tibble , file = "../averages_tibble.csv")
 
