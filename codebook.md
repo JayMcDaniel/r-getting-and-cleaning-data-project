@@ -13,7 +13,13 @@ Values for these have been converted from scientifc notation to numeric. The ave
 
  subject_id : ID unique to the subject (1-30)                                                     
  observation_id : ID (added) unique to observation (1-10299)                                                   
- activity : Activity recorded: ”WALKING”, ”WALKING UPSTAIRS”, "WALKING DOWNSTAIRS”, “SITTING”,”STANDING", "LAYING"         time_body_acceleration_mean_value_x                               
+ activity : Activity recorded: ”WALKING”, ”WALKING UPSTAIRS”, "WALKING DOWNSTAIRS”, “SITTING”,”STANDING", "LAYING"         time_body_acceleration_mean_value_x                        
+ The variables listeed below are the same data as the original, keeping only the means and standard deviation variables. The names have been spelled out to be more clear. In averages_tibble, these are simply the means of each activity by subject id:
+ averages_tibble <- combined_tibble %>%
+  select(-observation_id) %>% 
+  group_by(subject_id, activity) %>% 
+  summarise_all(mean)
+ 
  time_body_acceleration_mean_value_y                               
  time_body_acceleration_mean_value_z                               
  time_body_acceleration_standard_deviation_x                       

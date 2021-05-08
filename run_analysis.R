@@ -153,3 +153,5 @@ averages_tibble <- combined_tibble %>%
 write.table(combined_tibble , file = "../combined_tibble.csv")
 write.table(averages_tibble , file = "../averages_tibble.csv")
 
+write.table(averages_tibble , file = "../averages_tibble.txt", row.name=FALSE)
+
